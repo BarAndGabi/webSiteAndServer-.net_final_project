@@ -2,3 +2,46 @@
 @model webSiteAndServer.Pages.SignInPageModel
 @{
 }
+
+<div class="text-left">
+    <h1 class="display-4">Sign-In</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="firstName">First Name*</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required minlength="2">
+            <small class="form-text text-muted">Please enter your first name.</small>
+        </div>
+       
+        <div class="form-group">
+            <label for="identifier">Identifier*</label>
+            <input type="number" class="form-control" id="identifier" name="identifier" required min="1" max="1000">
+            <small class="form-text text-muted">Please enter a number between 1 and 1000.</small>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone*</label>
+            <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
+            <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
+        </div>
+        <div class="form-group">
+            <label for="country">Country*</label>
+            <select class="form-control" id="country" name="country" required>
+                <option value="">Select a country</option>
+                <option value="USA">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Mexico">Mexico</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Spain">Spain</option>
+                <option value="Russia">Russia</option>
+                <option value="China">China</option>
+
+
+            </select>
+            <small class="form-text text-muted">Please choose a country.</small>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
