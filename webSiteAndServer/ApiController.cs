@@ -51,29 +51,29 @@ namespace webSiteAndServer.Controllers
 
         private int GetNextCol(int[,] matrix)
         {
-            //check if there is a winning move for the server
-            int nextCol = this.FindBestMove(matrix);
+            // Check if there is a winning move for the server
+            int nextCol = FindWinningMove(matrix, 2);
             if (nextCol != -1)
             {
                 return nextCol;
             }
-            return -1;
+
+            // Check if opponent (player 1) is one turn away from winning
+            int opponentWinningMove = FindWinningMove(matrix, 1);
+            if (opponentWinningMove != -1)
+            {
+                return opponentWinningMove; // Block opponent's winning move
+            }
+
+            // No immediate winning move for either player, use the minimax algorithm to find the best move
+            return FindBestMove(matrix);
         }
 
         public int FindBestMove(int[,] board)
         {
             int depth = 6; // Desired depth for the search tree (adjust as needed)
-            int alpha = int.MinValue;
-            int beta = int.MaxValue;
             int bestMove = -1;
             int maxValue = int.MinValue;
-
-            // Check if opponent (player 1) is one turn away from winning
-            int opponentWinningMove = FindWinningMove(board, 1);
-            if (opponentWinningMove != -1)
-            {
-                return opponentWinningMove; // Block opponent's winning move
-            }
 
             for (int col = 0; col < 7; col++)
             {
@@ -82,7 +82,7 @@ namespace webSiteAndServer.Controllers
                     int[,] tempBoard = CopyBoard(board);
                     MakeMove(tempBoard, col, 2); // Make a hypothetical move for the server
 
-                    int moveValue = Minimax(tempBoard, depth - 1, false, alpha, beta);
+                    int moveValue = Minimax(tempBoard, depth - 1, false, int.MinValue, int.MaxValue);
 
                     if (moveValue > maxValue)
                     {
@@ -94,7 +94,6 @@ namespace webSiteAndServer.Controllers
 
             return bestMove;
         }
-
         // Helper function to find the opponent's (player 1) winning move
         private int FindWinningMove(int[,] board, int player)
         {
@@ -160,7 +159,6 @@ namespace webSiteAndServer.Controllers
             }
         }
 
-        // Implement the IsValidMove, MakeMove, IsTerminalNode, and Evaluate functions according to your Connect4 game rules.
 
         private int[,] CopyBoard(int[,] board)
         {
