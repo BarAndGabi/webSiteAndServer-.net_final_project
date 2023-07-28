@@ -1,8 +1,12 @@
+
+using Microsoft.EntityFrameworkCore;
+using webSiteAndServer.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+builder.Services.AddDbContext<Connect4Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Connect4ConnectionString")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
