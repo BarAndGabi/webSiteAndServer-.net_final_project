@@ -5,26 +5,44 @@
 
 <div class="text-left">
     <h1 class="display-4">Sign-In</h1>
+        @* Display error message if there's a model error *@
+        @if (!ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <p>Please correct the following errors:</p>
+                <ul>
+                    @foreach (var modelStateEntry in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelStateEntry.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
     <form method="post">
         <div class="form-group">
             <label for="firstName">First Name*</label>
-            <input type="text" class="form-control" id="firstName" asp-for=SignUpRequest.FirstName required minlength="2">
-            <small class="form-text text-muted">Please enter your first name.</small>
+            <input type="text" placeholder="Please enter your first name" class="form-control" id="firstName" asp-for="FirstName"  minlength="2">
+            <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
        
         <div class="form-group">
             <label for="identifier">Identifier*</label>
-            <input type="number" class="form-control" id="identifier" asp-for=SignUpRequest.PlayerId required min="1" max="1000">
-            <small class="form-text text-muted">Please enter a number between 1 and 1000.</small>
+            
+            <input type=number placeholder="Please enter a number between 1 and 1000" class="form-control" id="identifier" asp-for="PlayerId"  min="1" max="1000">
+            <span asp-validation-for="PlayerId" class="text-danger"></span>
+            
         </div>
         <div class="form-group">
             <label for="phone">Phone*</label>
-            <input type="tel" class="form-control" id="phone" asp-for=SignUpRequest.PhoneNumber pattern="[0-9]{10}" required>
-            <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
+            <input type="tel" placeholder="Enter Phone Number" class="form-control" id="phone" asp-for="Phone" pattern="[0-9]{10}"></>
+            <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="country">Country*</label>
-            <select class="form-control" id="country" asp-for=SignUpRequest.Country name="country" required>
+            <select class="form-control" id="country" asp-for="Country" >
                 <option value="">Select a country</option>
                 <option value="USA">United States</option>
                 <option value="UK">United Kingdom</option>
@@ -39,8 +57,7 @@
 
 
             </select>
-            <small class="form-text text-muted">Please choose a country.</small>
-
+            <span asp-validation-for="Country" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

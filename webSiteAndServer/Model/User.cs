@@ -4,7 +4,10 @@ namespace webSiteAndServer.Model
 {
 	public class User
 	{
-		[Key]
+        [Key]
+		public int Id { get; set; }
+        
+		[Required]
 		public int PlayerId { get; set; }
 
 		[Required]

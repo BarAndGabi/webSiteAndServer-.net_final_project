@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webSiteAndServer.Data;
 
@@ -11,9 +12,11 @@ using webSiteAndServer.Data;
 namespace webSiteAndServer.Migrations
 {
     [DbContext(typeof(Connect4Context))]
-    partial class Connect4ContextModelSnapshot : ModelSnapshot
+    [Migration("20230729125337_Initial Migration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

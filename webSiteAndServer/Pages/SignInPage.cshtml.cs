@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using webSiteAndServer.Data;
 using webSiteAndServer.Model;
 
@@ -10,10 +11,24 @@ namespace webSiteAndServer.Pages
         private readonly Connect4Context connect4Context;
 
         [BindProperty]
-        public UserViewModel SignUpRequest { get; set; }
+        [Required(ErrorMessage="FirstName is required")]
+        public string FirstName { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage = "ID is required")]
+        public int PlayerId { get; set; }
+        [BindProperty]
+        [Required(ErrorMessage = "PhoneNumber is required")]
+        public string Phone { get; set; }
 
+        [BindProperty]
+        [Required(ErrorMessage = "Country is required")]
+        public string Country { get; set; }
+
+        public string succesMessage = "";
+        public string errorMessage = "";
         public SignInPageModel(Connect4Context connect4Context)
         {
+
             this.connect4Context = connect4Context;
         }
         public void OnGet()
@@ -30,7 +45,7 @@ namespace webSiteAndServer.Pages
                 return Page();
             }
 
-            if (connect4Context.users.Any(p => p.PlayerId == SignUpRequest.PlayerId))
+            if (connect4Context.users.Any(p => p.PlayerId == PlayerId))
             {
                 ModelState.AddModelError("Player.PlayerId", "Player ID already exists.");
                 return Page();
@@ -39,10 +54,10 @@ namespace webSiteAndServer.Pages
             {
                 var user = new User
                 {
-                    PlayerId = SignUpRequest.PlayerId,
-                    FirstName = SignUpRequest.FirstName,
-                    PhoneNumber = SignUpRequest.PhoneNumber,
-                    Country = SignUpRequest.Country
+                    PlayerId = PlayerId,
+                    FirstName = FirstName,
+                    PhoneNumber = Phone,
+                    Country = Country
                 };
 
                 connect4Context.users.Add(user);
