@@ -24,6 +24,7 @@
     <None Remove="Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Model\" />
     <Folder Include="Data\" />
   </ItemGroup>

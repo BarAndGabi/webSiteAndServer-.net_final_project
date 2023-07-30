@@ -5,9 +5,8 @@ namespace webSiteAndServer.Model
 	public class User
 	{
         [Key]
-		public int Id { get; set; }
-        
 		[Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
 		public int PlayerId { get; set; }
 
 		[Required]

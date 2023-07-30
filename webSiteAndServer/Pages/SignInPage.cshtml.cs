@@ -12,9 +12,11 @@ namespace webSiteAndServer.Pages
 
         [BindProperty]
         [Required(ErrorMessage="FirstName is required")]
+        
         public string FirstName { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "ID is required")]
+        [Range(1, 1000, ErrorMessage = "The ID must be between 1-1000")]
         public int PlayerId { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "PhoneNumber is required")]
@@ -42,6 +44,7 @@ namespace webSiteAndServer.Pages
 
             if (!ModelState.IsValid)
             {
+
                 return Page();
             }
 
@@ -71,6 +74,7 @@ namespace webSiteAndServer.Pages
                 ModelState.AddModelError("", "Error occurred while saving to the database.");
                 return Page();
             }
+            ModelState.Clear();
             return RedirectToPage("Index");
         }
     }
