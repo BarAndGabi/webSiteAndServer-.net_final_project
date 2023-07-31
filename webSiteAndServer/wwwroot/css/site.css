@@ -1,18 +1,108 @@
+/* CSS Reset (using Normalize.css as an example) */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+
+/* Base Styles */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+    min-height: 100%;
+    background-color: #f9f9f9; /* Light gray background */
+    color: #333;
+}
+
+/* Other CSS Rules Here */
+
+/* Example of Styling Specific Elements */
+h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: #FF5733; /* Coral color heading */
+}
+
+p {
+    margin-bottom: 1.25em;
+}
+
+/* Add more rules for other elements as needed */
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #4CAF50; /* Green button background */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px; /* Rounded button */
+    transition: background-color 0.3s ease;
+}
+
+    .button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
+/* Links */
+a {
+    color: #007BFF; /* Blue link color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a:hover {
+        color: #0056b3; /* Darker blue on hover */
+    }
+
+/* Footer Styles */
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    line-height: 60px;
+}
+
+/* Add more styles for other elements as needed */
+
+/* Additional Styles for Fun and Colorful Elements */
+/* You can add these styles to specific elements in your HTML as needed */
+/* Example: <div class="fun-box">This is a fun box!</div> */
+.fun-box {
+    background-color: #FFC300; /* Vivid Yellow */
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Example: <div class="alert-box">This is an alert box!</div> */
+.alert-box {
+    background-color: #E74C3C; /* Red */
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
 }

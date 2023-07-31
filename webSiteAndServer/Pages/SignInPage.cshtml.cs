@@ -36,9 +36,50 @@ namespace webSiteAndServer.Pages
             this.PlayerId = -1;
             this.Country = "";
             this.Phone="";
+            this.AddHardcodedUsersToDB();
 
 
         }
+
+        private void AddHardcodedUsersToDB()
+        {
+            // Check if there are any users in the database
+            if (connect4Context.users.Any())
+            {
+                return; // If there are users, do not add hardcoded users again
+            }
+
+            // Create three hardcoded user records
+            var user1 = new User
+            {
+                PlayerId = 1,
+                FirstName = "a",
+                PhoneNumber = "1234567890",
+                Country = "CountryA"
+            };
+
+            var user2 = new User
+            {
+                PlayerId = 2,
+                FirstName = "b",
+                PhoneNumber = "9876543210",
+                Country = "CountryB"
+            };
+
+            var user3 = new User
+            {
+                PlayerId = 3,
+                FirstName = "c",
+                PhoneNumber = "5555555555",
+                Country = "CountryC"
+            };
+
+            // Add the users to the database using the Connect4Context
+            connect4Context.users.AddRange(user1, user2, user3);
+            connect4Context.SaveChanges();
+        }
+
+
         public void OnGet()
         {
         }
