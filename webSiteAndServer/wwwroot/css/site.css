@@ -1,20 +1,15 @@
 /* CSS Reset (using Normalize.css as an example) */
+/* Place this line in the <head> section of your HTML */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
 
 /* Base Styles */
 html {
-    font-size: 14px;
+    font-size: 16px; /* Increase the base font size for better readability */
+    box-sizing: border-box; /* Use border-box model to include padding and border in the element's total width/height */
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-html {
-    position: relative;
-    min-height: 100%;
+*, *::before, *::after {
+    box-sizing: inherit; /* Inherit box-sizing for all elements and pseudo-elements */
 }
 
 body {
@@ -23,86 +18,80 @@ body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     letter-spacing: 0.05em;
-    min-height: 100%;
-    background-color: #f9f9f9; /* Light gray background */
+    min-height: 100vh; /* Use vh (viewport height) instead of 100% */
+    background-color: #f9f9f9;
     color: #333;
 }
 
-/* Other CSS Rules Here */
-
-/* Example of Styling Specific Elements */
+/* Improved Heading Styles */
 h1 {
-    font-size: 2.5em;
+    font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 1em;
-    color: #FF5733; /* Coral color heading */
+    margin-bottom: 1.5rem; /* Increase margin for better spacing */
+    color: #FF5733;
 }
 
-p {
-    margin-bottom: 1.25em;
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem; /* Increase vertical spacing between form groups */
 }
 
-/* Add more rules for other elements as needed */
-
-/* Buttons */
-.button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #4CAF50; /* Green button background */
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px; /* Rounded button */
-    transition: background-color 0.3s ease;
-}
-
-    .button:hover {
-        background-color: #45a049; /* Darker green on hover */
+    .form-group label {
+        font-weight: bold;
     }
 
-/* Links */
-a {
-    color: #007BFF; /* Blue link color */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-    a:hover {
-        color: #0056b3; /* Darker blue on hover */
-    }
-
-/* Footer Styles */
-.footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.form-control {
     width: 100%;
-    height: 60px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    line-height: 60px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
 }
 
-/* Add more styles for other elements as needed */
+/* Button Styles */
+.btn-primary {
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+}
 
-/* Additional Styles for Fun and Colorful Elements */
-/* You can add these styles to specific elements in your HTML as needed */
-/* Example: <div class="fun-box">This is a fun box!</div> */
+/* Additional Custom Styles */
+.text-left {
+    text-align: left; /* Align content to the left */
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 2rem; /* Decrease the font size for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .form-control {
+        font-size: 14px; /* Decrease input font size for smaller screens */
+    }
+}
+
+/* Gradient Background for Fun Box */
 .fun-box {
-    background-color: #FFC300; /* Vivid Yellow */
-    color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-image: linear-gradient(to right, #FFC300, #FF5733);
 }
 
-/* Example: <div class="alert-box">This is an alert box!</div> */
+/* Animation for Alert Box */
 .alert-box {
-    background-color: #E74C3C; /* Red */
-    color: #fff;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 20px;
+    animation: pulseAlert 1s ease-in-out infinite;
+}
+
+@keyframes pulseAlert {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
