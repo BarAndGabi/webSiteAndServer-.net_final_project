@@ -32,6 +32,12 @@ namespace webSiteAndServer.Pages
         {
 
             this.connect4Context = connect4Context;
+            this.FirstName = "";
+            this.PlayerId = -1;
+            this.Country = "";
+            this.Phone="";
+
+
         }
         public void OnGet()
         {
@@ -71,7 +77,7 @@ namespace webSiteAndServer.Pages
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Error occurred while saving to the database.");
+                ModelState.AddModelError("", "Error occurred while saving to the database.\n"+ex.Message);
                 return Page();
             }
             ModelState.Clear();
