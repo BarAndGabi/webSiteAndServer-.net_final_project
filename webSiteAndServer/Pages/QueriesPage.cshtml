@@ -1,4 +1,70 @@
 ﻿@page
+@using System.Data;
 @model webSiteAndServer.Pages.QueriesPageModel
 @{
+
+<!DOCTYPE html>
+<head>
+    <title>Query Tables</title>
+    <!-- Add Bootstrap CSS link here -->
+    <style>
+        /* Adjust the height of the table container based on your needs */
+        .table-container {
+            height: 500px; /* Adjust this value as needed */
+            overflow-y: auto;
+        }
+    </style>
+</head>
+ <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <h1>Query Tables</h1>
+                <form method="post">
+                    <div class="btn-group-vertical">
+                        <button type="submit" name="queryName" value="query1" class="btn btn-primary">Query 1</button>
+                        <button type="submit" name="queryName" value="query2" class="btn btn-primary">Query 2</button>
+                        <button type="submit" name="queryName" value="query3" class="btn btn-primary">Query 3</button>
+                        <button type="submit" name="queryName" value="query4" class="btn btn-primary">Query 4</button>
+                        <button type="submit" name="queryName" value="query5" class="btn btn-primary">Query 5</button>
+                        <button type="submit" name="queryName" value="query6" class="btn btn-primary">Query 6</button>
+                        <button type="submit" name="queryName" value="query7" class="btn btn-primary">Query 7</button>
+                    </div>
+                </form>
+            </div>
+           <div class="col-md-9">
+                <div class="table-container">
+                    <!-- Display the query result table here -->
+                    @if (ViewData["QueryResult"] is DataTable dataTable)
+                    {
+                        <table class="table table-bordered">
+                            <thead>
+                                @foreach (DataColumn column in dataTable.Columns)
+                                {
+                                    <th>@column.ColumnName</th>
+                                }
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in dataTable.Rows)
+                                {
+                                    <tr>
+                                        @foreach (var item in row.ItemArray)
+                                        {
+                                            <td>@item</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <!-- Add Bootstrap JS and jQuery scripts here -->
+</body>
+
+
+
 }
