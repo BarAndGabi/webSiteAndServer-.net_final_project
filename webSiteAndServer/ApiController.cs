@@ -14,11 +14,12 @@ namespace webSiteAndServer.Controllers
         public ActionResult<int> GetServerTurn([FromBody] string  matrixJSON)
         {
             int[,] matrix = this.JsonToMatrix(matrixJSON);
-            int nextCol = this.GetNextCol(matrix);
+           
 
             try
             {
                 int colSize = matrix.GetLength(1);
+                 int nextCol = this.GetNextCol(matrix);
 
                 //Check if any column has empty cells
                 List<int> columnsWithEmptyCells = new List<int>();
@@ -32,9 +33,6 @@ namespace webSiteAndServer.Controllers
 
                 if (columnsWithEmptyCells.Count > 0)
                 {
-                    // Select a random column from the list of columns with empty cells
-                    int randomIndex = GetRandomIndex(columnsWithEmptyCells.Count);
-                    int selectedColumn = columnsWithEmptyCells[randomIndex];
                     return Ok(nextCol);
                 }
                 else
