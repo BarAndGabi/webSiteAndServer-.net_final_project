@@ -368,7 +368,7 @@ namespace webSiteAndServer.Controllers
 
                 // Get the dimensions of the board
                 int numRows = boardArray.Length;
-                int numCols = numRows > 0 ? boardArray[0].Length : 0;
+                int numCols = numRows > 0 ? boardArray[0].Length : 0;//if numRows > 0 then numCols = boardArray[0].Length else numCols = 0
 
                 // Create a matrix with the same dimensions as the board
                 int[,] matrix = new int[numRows, numCols];
