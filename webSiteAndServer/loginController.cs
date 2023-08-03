@@ -12,7 +12,6 @@ namespace webSiteAndServer
         {
             this.db = db;
         }
-        // POST: api/login
         [HttpPost("login")]
         public IActionResult Post([FromBody] LoginRequestModel model)
         {

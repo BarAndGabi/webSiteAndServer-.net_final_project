@@ -16,13 +16,8 @@ namespace webSiteAndServer.Pages
         {
 
         }
-        [HttpPost]
-        public IActionResult OnPostLogin(string userName, int userId)
-        {
-            // Here, you can implement any logic you need.
-            // For this example, we simply return -1.
-            return new JsonResult(-1);
-        }
+    
+
 
     }
 }

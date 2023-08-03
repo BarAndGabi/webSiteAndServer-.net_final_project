@@ -37,6 +37,7 @@ namespace webSiteAndServer.Pages
             this.Country = "";
             this.Phone="";
             this.AddHardcodedUsersToDB();
+            this.AddHardcodedGamesToDB();
 
 
         }
@@ -78,7 +79,54 @@ namespace webSiteAndServer.Pages
             connect4Context.users.AddRange(user1, user2, user3);
             connect4Context.SaveChanges();
         }
+        //make 10 random games for each player 
+        public void AddHardcodedGamesToDB()
+        {
+            //check if there is less then 30 games in the db
+            if (connect4Context.Games.Count() < 30)
+            {
+                //create 30 games
+                for (int i = 1; i <= 3; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Random random = new Random();
+                        //random game 
+                        var randomGame = new Model.Game
+                        {
+                            GameFinished = this.randomBool(),
+                            Id = this.randomGameID(),
+                            PlayerId = i,
+                            StartTime = DateTime.Now,
+                            TimePlayedSeconds = random.Next(1, 1000),
+                            PlayerWon = this.randomBool()
+                        };
+                        connect4Context.Games.Add(randomGame);
+                        connect4Context.SaveChanges();
+                    }
+                }
+            }
+        }
 
+        
+
+        private string randomGameID()
+        {
+           //returns random string in length of 10
+           Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, 10)
+                             .Select(s => s[random.Next(s.Length)]).ToArray());
+            
+        }
+
+        private bool? randomBool()
+        {
+            //returns random true or false
+            Random random = new Random();
+            return random.Next(0, 2) == 1;
+
+        }
 
         public void OnGet()
         {
@@ -125,4 +173,5 @@ namespace webSiteAndServer.Pages
             return RedirectToPage("Index");
         }
     }
+}
 }
