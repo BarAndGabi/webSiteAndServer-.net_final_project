@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webSiteAndServer.Model
 {
-    public class Game
+    public class Games
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

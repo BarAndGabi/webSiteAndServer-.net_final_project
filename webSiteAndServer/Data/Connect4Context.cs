@@ -11,7 +11,7 @@ namespace webSiteAndServer.Data
         {
 
         }
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Games> Games { get; set; }
 		public DbSet<User> users { get; set; }
 
 
