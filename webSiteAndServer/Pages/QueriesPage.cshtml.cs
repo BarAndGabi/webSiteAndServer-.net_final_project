@@ -32,17 +32,28 @@ namespace webSiteAndServer.Pages
                     Query1();
                     break;
                 case "query2":
+                    ViewData["SelectedQuery"] = 2;
                     Query2();
                       break;
                 case "querry3":
+                    ViewData["SelectedQuery"] = 3;
+                    Query3();
                     break;
                 case "querry4":
+                    ViewData["SelectedQuery"] = 4;
+                    Query4();
                     break;
                 case "querry5":
+                    ViewData["SelectedQuery"] = 5;
+                    Query5();
                     break;
                 case "querry6":
+                    ViewData["SelectedQuery"] = 6;
+                    Query6();
                     break;
                 case "querry7":
+                    ViewData["SelectedQuery"] =7;
+                    Query7();
                     break;
 
                 // Add cases for other queries
@@ -51,6 +62,26 @@ namespace webSiteAndServer.Pages
             }
 
             return Page();
+        }
+
+        private void Query7()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Query6()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Query5()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Query4()
+        {
+            throw new NotImplementedException();
         }
 
         private void Query1()
