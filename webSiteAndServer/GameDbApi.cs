@@ -72,7 +72,7 @@ namespace webSiteAndServer
     public class StartGameRequestModel
     {
         public int PlayerId { get; set; }
-        public string GameId { get; set; }
+        public string GameId { get; set; } = "";
         //StartTime
         public DateTime StartTime { get; set; }
 
@@ -80,7 +80,7 @@ namespace webSiteAndServer
     // Create a model class to represent the end game request data.
     public class EndGameRequestModel
     {
-        public string GameId { get; set; }
+        public string GameId { get; set; } = "";
         public bool? PlayerWon { get; set; }
         public int? TimeLengthSeconds { get; set; }
     }
