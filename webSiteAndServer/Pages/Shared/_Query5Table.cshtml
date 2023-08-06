@@ -21,7 +21,7 @@
                         @foreach (DataRow row in dataTable.Rows)
                         {
                             <tr>
-                                <td>@row["Id"]</td>
+                                <td>@row["GameId"]</td>
                                 <td>@row["PlayerId"]</td>
                                 <td>@row["PlayerWon"]</td>
                                 <td>@row["GameFinished"]</td>
@@ -30,5 +30,5 @@
                             </tr>
                         }
                     </tbody>
-                    </table">
+                    </table>
             }

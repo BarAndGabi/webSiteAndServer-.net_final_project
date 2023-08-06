@@ -12,9 +12,11 @@ namespace webSiteAndServer.Pages
         private readonly Connect4Context connect4Context;
         public List<User>? Users { get; set; }
         public List<SelectListItem> UsersCombo { get; set; }
+        public List<SelectListItem> CountryCombo { get; set; }
 
         public DataTable? QueryResult { get; set; }
         public int SelectedUserId { get; set; }
+        public string SelectedCountry { get; set; }
 
         public QueriesPageModel(Connect4Context connect4Context)
         {
@@ -33,33 +35,35 @@ namespace webSiteAndServer.Pages
             {
                 case "query1":
                     ViewData["SelectedQuery"] = 1;
-                    Query1();
+                    this.Query1();
                     break;
                 case "query2":
                     ViewData["SelectedQuery"] = 2;
-                    Query2();
+                    this.Query2();
                       break;
                 case "query3":
                     ViewData["SelectedQuery"] = 3;
-                    Query3();
+                    this.Query3();
                     break;
                 case "query4":
-                    ViewData["SelectedQuery"] = 4;
-                    Query4();
-                    break;
+                    return Page();
                 case "query5":
                     ViewData["SelectedQuery"] = 5;
-                     Query5(); 
+                     this.Query5(); 
                     
                     break;
                 case "query6":
                     ViewData["SelectedQuery"] = 6;
-                    Query6();
+                    this.Query6();
                     break;
                 case "query7":
                     ViewData["SelectedQuery"] =7;
-                    Query7();
+                    this.Query7();
                     break;
+                case "query8":
+                    ViewData["SelectedQuery"] = 8;
+                    this.Query8();
+                    break;  
 
                 // Add cases for other queries
                 default:
@@ -68,6 +72,8 @@ namespace webSiteAndServer.Pages
 
                 return Page();
         }
+
+        
 
         private void Query7()
         {
@@ -173,7 +179,7 @@ namespace webSiteAndServer.Pages
 
         private void Query1()
         {
-            Users = this.connect4Context.Users.ToList();
+            Users = this.connect4Context.users.ToList();
 
             QueryResult = new DataTable();
             QueryResult.Columns.Add("PlayerId", typeof(int));
@@ -200,7 +206,7 @@ namespace webSiteAndServer.Pages
                 .OrderBy(item => item.PlayerId)
                 .ToList();
 
-            var users = this.connect4Context.Users.ToList();
+            var users = this.connect4Context.users.ToList();
 
             QueryResult = new DataTable();
             QueryResult.Columns.Add("Username", typeof(string));
@@ -213,10 +219,22 @@ namespace webSiteAndServer.Pages
                 {
                     QueryResult.Rows.Add(user.FirstName, userGame.LatestStartTime);
                 }
+                else
+                {
+                    // If the user doesn't exist in the "users" list, add the user with null start time.
+                    QueryResult.Rows.Add("Unknown User", null);
+                }
+            }
+
+            // Now, find users who haven't played any games and add them to the DataTable.
+            var playedUserIds = userGames.Select(ug => ug.PlayerId).ToList();
+            var unplayedUsers = users.Where(u => !playedUserIds.Contains(u.PlayerId));
+            foreach (var unplayedUser in unplayedUsers)
+            {
+                QueryResult.Rows.Add(unplayedUser.FirstName,null);
             }
 
             ViewData["QueryResult"] = QueryResult;
-            
         }
 
         private void Query3()
@@ -241,12 +259,13 @@ namespace webSiteAndServer.Pages
         private void Query5()
         {
     // Populate UsersCombo directly in the model
-        UsersCombo = connect4Context.Users
+        UsersCombo = connect4Context.users
         .Select(user => new SelectListItem
         {
             Value = user.PlayerId.ToString(),
             Text = user.FirstName
         })
+        .Distinct()
         .ToList();
 
             ViewData["UserCombo"] = UsersCombo;
@@ -259,7 +278,7 @@ namespace webSiteAndServer.Pages
                     .ToList();
 
                 QueryResult = new DataTable();
-                QueryResult.Columns.Add("GameId", typeof(int));
+                QueryResult.Columns.Add("GameId", typeof(string));
                 QueryResult.Columns.Add("PlayerId", typeof(int));
                 QueryResult.Columns.Add("PlayerWon", typeof(bool));
                 QueryResult.Columns.Add("GameFinished", typeof(bool));
@@ -275,6 +294,46 @@ namespace webSiteAndServer.Pages
             }
 
 
+        }
+        private void Query8()
+        {
+            //combo box of countries from db
+            this.CountryCombo = connect4Context.users
+                .Select(user => new SelectListItem
+                {
+                    Value = user.Country,
+                    Text = user.Country
+                }
+                )
+                .Distinct()
+                .ToList();
+            
+            ViewData["countryCombo"] = this.CountryCombo;
+            //table of users with selected Country from db
+            if (Request.Form.ContainsKey("SelectedCountry"))
+                this.SubmitCountries();
+
+        }
+        private void SubmitCountries()
+        {
+            var selectedCountry = Request.Form["selectedCountry"];
+            var users = connect4Context.users
+                .Where(user => user.Country == selectedCountry)
+                .ToList();
+
+            QueryResult = new DataTable();
+            QueryResult.Columns.Add("PlayerId", typeof(int));
+            QueryResult.Columns.Add("Firstname", typeof(string));
+            QueryResult.Columns.Add("PhoneNumber", typeof(string));
+
+            foreach (var user in users)
+            {
+                QueryResult.Rows.Add(user.PlayerId, user.FirstName, user.PhoneNumber);
+            }
+
+            ViewData["QueryResult"] = QueryResult;
+            
+         
         }
 
 

@@ -1,0 +1,29 @@
+﻿@using System.Data;
+
+
+@if (ViewData["QueryResult"] is DataTable dataTable)
+{
+    <h3>Users from Country:</h3>
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>PlayerId</th>
+                <th>PlayerName</th>
+                <th>PhoneNumber</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in dataTable.Rows)
+            {
+                <tr>
+                    <td>@row["PlayerId"]</td>
+                    <td>@row["Firstname"]</td>
+                    <td>@row["PhoneNumber"]</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

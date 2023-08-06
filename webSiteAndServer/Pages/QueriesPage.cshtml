@@ -26,6 +26,7 @@
                         <button type="submit" name="queryName" value="query5" class="btn btn-primary mb-2">Query 5</button>
                         <button type="submit" name="queryName" value="query6" class="btn btn-primary mb-2">Query 6</button>
                         <button type="submit" name="queryName" value="query7" class="btn btn-primary mb-2">Query 7</button>
+<button type="submit" name="queryName" value="query8" class="btn btn-primary mb-2">Query 8</button>
                    </div>
                 </form>
             </div>
@@ -45,6 +46,20 @@
                                 <button type="submit" name="queryName" value="query5">Show User Games</button>
                         </form>
                      
+                    }
+                    @if (ViewData["countryCombo"] is List<SelectListItem>)
+                    {
+                        <form method="post">
+                            <label>Select a country:</label>
+                            <select name="selectedCountryId">
+                                @foreach (var country in Model.CountryCombo)
+                                {
+                                    <option value="@country.Value">@country.Text</option>
+                                }
+                            </select>
+                            <button type="submit" name="queryName" value="query8">Show User by country</button>
+                        </form>
+
                     }
                     <div class="table-container">
                     @if (ViewData["QueryResult"] is DataTable dataTable)
