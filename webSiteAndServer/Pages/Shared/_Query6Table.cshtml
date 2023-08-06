@@ -1,5 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using System.Data;
 @{
+    var queryResult = ViewData["QueryResult"] as DataTable;
+}
+
+@if (queryResult != null)
+{
+    <h3 class="text-center">Player Games Played</h3>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-center">PlayerId</th>
+                <th class="text-center">GamesPlayed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow row in queryResult.Rows)
+            {
+                <tr>
+                    <td>@row["PlayerId"]</td>
+                    <td>@row["GamesPlayed"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

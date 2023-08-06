@@ -1,5 +1,6 @@
 ﻿@page
 @using System.Data;
+@using webSiteAndServer.Model;
 @model webSiteAndServer.Pages.QueriesPageModel
 @{
 
@@ -28,14 +29,50 @@
                    </div>
                 </form>
             </div>
+            
            <div class="col-md-9">
-                <div class="table-container">
-                  @if (ViewData["QueryResult"] is DataTable dataTable)
-                        {
+                    
+                    @if (ViewData["UserCombo"] is  List<SelectListItem>)
+                    {
+                         <form method="post">
+                            <label>Select a User:</label>
+                                <select name="selectedUserId">
+                                        @foreach (var user in Model.UsersCombo)
+                                        {
+                                            <option value="@user.Value">@user.Text</option>
+                                        }
+                                </select>
+                                <button type="submit" name="queryName" value="query5">Show User Games</button>
+                        </form>
+                     
+                    }
+                    <div class="table-container">
+                    @if (ViewData["QueryResult"] is DataTable dataTable)
+                     {
+                           
                             var selectedQuery = ViewData["SelectedQuery"];
+                            @if (selectedQuery is 7)
+                            {
+                                 var query7Tables = new List<DataTable>
+                                {
+                                    ViewData["QueryResult"] as DataTable,
+                                    ViewData["PlayersPlayed2"] as DataTable,
+                                    ViewData["PlayersPlayed1"] as DataTable,
+                                    ViewData["PlayersDidntPlayYet"] as DataTable
+                                };
+
+                            ViewData["Query7Tables"] = query7Tables;
                             var path = $"/Pages/Shared/_Query{selectedQuery}Table.cshtml";
                             @await Html.PartialAsync(path, dataTable)
-                        }
+
+                            }else
+                            {
+                            var path = $"/Pages/Shared/_Query{selectedQuery}Table.cshtml";
+                            @await Html.PartialAsync(path, dataTable)
+                            }
+                            
+                     }
+                      
                     </div>
                 </div>
             </div>

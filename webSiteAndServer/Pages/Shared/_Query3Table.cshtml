@@ -1,5 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<table class="table table-bordered">
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn column in Model.Columns)
+            {
+                <th>
+                      @column.ColumnName  
+                </th>
+            }
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                @foreach (var item in row.ItemArray)
+                {
+                    <td>@item</td>
+                }
+                <td><button type="button" class="btn btn-danger">Edit</button></td>
+                <td><button type="button" class="btn btn-danger">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

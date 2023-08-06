@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using System.Data;
+   
+            
+         @if (ViewData["QueryResult"] is DataTable dataTable)
+            {
+
+                <h3>User Games:</h3>
+                <table class="table table-bordered">
+
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>PlayerId</th>
+                            <th>PlayerWon</th>
+                            <th>GameFinished</th>
+                            <th>StartTime</th>
+                            <th>TimePlayedSeconds</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in dataTable.Rows)
+                        {
+                            <tr>
+                                <td>@row["Id"]</td>
+                                <td>@row["PlayerId"]</td>
+                                <td>@row["PlayerWon"]</td>
+                                <td>@row["GameFinished"]</td>
+                                <td>@row["StartTime"]</td>
+                                <td>@row["TimePlayedSeconds"]</td>
+                            </tr>
+                        }
+                    </tbody>
+                    </table">
+            }

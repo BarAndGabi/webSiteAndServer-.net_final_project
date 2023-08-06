@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using System.Data;
 @{
+    var tables = ViewData["Query7Tables"] as List<DataTable>;
+   
+}
+
+@if (tables != null)
+{
+    @foreach (var table in tables)
+    {
+        <h3 class="text-center">@table.TableName</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    @foreach (System.Data.DataColumn column in table.Columns)
+                    {
+                        <th>
+                            @column.ColumnName
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in table.Rows)
+                {
+                    <tr>
+                        @foreach (var item in row.ItemArray)
+                        {
+                            <td>@item</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
