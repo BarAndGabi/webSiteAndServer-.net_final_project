@@ -270,7 +270,6 @@ namespace webSiteAndServer.Pages
 
             ViewData["UserCombo"] = UsersCombo;
 
-
             if (int.TryParse(Request.Form["selectedUserId"], out int selectedUserId))
             {
                 var userGames = connect4Context.Games
@@ -297,44 +296,41 @@ namespace webSiteAndServer.Pages
         }
         private void Query8()
         {
-            //combo box of countries from db
+            // Combo box of countries from db
             this.CountryCombo = connect4Context.users
                 .Select(user => new SelectListItem
                 {
                     Value = user.Country,
                     Text = user.Country
-                }
-                )
+                })
                 .Distinct()
                 .ToList();
-            
+
             ViewData["countryCombo"] = this.CountryCombo;
-            //table of users with selected Country from db
-            if (Request.Form.ContainsKey("SelectedCountry"))
-                this.SubmitCountries();
 
-        }
-        private void SubmitCountries()
-        {
-            var selectedCountry = Request.Form["selectedCountry"];
-            var users = connect4Context.users
-                .Where(user => user.Country == selectedCountry)
-                .ToList();
-
-            QueryResult = new DataTable();
-            QueryResult.Columns.Add("PlayerId", typeof(int));
-            QueryResult.Columns.Add("Firstname", typeof(string));
-            QueryResult.Columns.Add("PhoneNumber", typeof(string));
-
-            foreach (var user in users)
+            if (Request.Form.ContainsKey("SelectedCountryId"))
             {
-                QueryResult.Rows.Add(user.PlayerId, user.FirstName, user.PhoneNumber);
-            }
+                string selectedCountry = Request.Form["SelectedCountryId"];
 
-            ViewData["QueryResult"] = QueryResult;
-            
-         
+                // Table of users with selected Country from db
+                var users = connect4Context.users
+                    .Where(user => user.Country == selectedCountry)
+                    .ToList();
+
+                QueryResult = new DataTable();
+                QueryResult.Columns.Add("PlayerId", typeof(int));
+                QueryResult.Columns.Add("Firstname", typeof(string));
+                QueryResult.Columns.Add("PhoneNumber", typeof(string));
+
+                foreach (var user in users)
+                {
+                    QueryResult.Rows.Add(user.PlayerId, user.FirstName, user.PhoneNumber);
+                }
+
+                ViewData["QueryResult"] = QueryResult;
+            }
         }
+
 
 
 
