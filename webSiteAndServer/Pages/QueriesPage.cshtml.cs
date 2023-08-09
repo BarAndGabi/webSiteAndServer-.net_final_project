@@ -9,7 +9,7 @@ namespace webSiteAndServer.Pages
 {
     public class QueriesPageModel : PageModel
     {
-        private readonly Connect4Context connect4Context;
+        private  Connect4Context connect4Context;
         public List<User>? Users { get; set; }
         public List<SelectListItem> UsersCombo { get; set; }
         public List<SelectListItem> CountryCombo { get; set; }
@@ -334,6 +334,20 @@ namespace webSiteAndServer.Pages
                 }
 
                 ViewData["QueryResult"] = QueryResult;
+            }
+        }
+
+        private void DeleteUser(User user)
+        {
+            connect4Context.users.Remove(user);
+            int rowsAffected = connect4Context.SaveChanges();
+            if (rowsAffected > 0)
+            {
+                Console.WriteLine("User deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("User deletion failed.");
             }
         }
 

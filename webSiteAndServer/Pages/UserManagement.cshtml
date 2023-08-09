@@ -1,0 +1,33 @@
+﻿@page
+@model UserManagementModel
+
+<table>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.PlayerId</td>
+            <td>@user.FirstName</td>
+            <td>@user.PhoneNumber</td>
+            <td>@user.Country</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="userId" value="@user.PlayerId" />
+                    <select name="column">
+                        <option value="Id">Id</option>
+                        <option value="FirstName">First Name</option>
+                        <option value="PhoneNumber">Phone Number</option>
+                        <option value="Country">Country</option>
+                    </select>
+                    <input type="text" name="newValue" />
+                    <button type="submit" name="action" value="edit" class="btn btn-danger">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="userId" value="@user.PlayerId" />
+                    <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
