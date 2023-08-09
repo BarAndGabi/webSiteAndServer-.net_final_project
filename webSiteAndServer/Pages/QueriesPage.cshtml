@@ -68,15 +68,6 @@
                             var selectedQuery = ViewData["SelectedQuery"];
                             @if (selectedQuery is 7)
                             {
-                                 var query7Tables = new List<DataTable>
-                                {
-                                    ViewData["QueryResult"] as DataTable,
-                                    ViewData["PlayersPlayed2"] as DataTable,
-                                    ViewData["PlayersPlayed1"] as DataTable,
-                                    ViewData["PlayersDidntPlayYet"] as DataTable
-                                };
-
-                            ViewData["Query7Tables"] = query7Tables;
                             var path = $"/Pages/Shared/_Query{selectedQuery}Table.cshtml";
                             @await Html.PartialAsync(path, dataTable)
 

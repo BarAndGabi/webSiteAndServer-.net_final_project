@@ -21,7 +21,7 @@ namespace webSiteAndServer.Pages
         public QueriesPageModel(Connect4Context connect4Context)
         {
             this.connect4Context = connect4Context;
-           
+
         }
 
 
@@ -40,7 +40,7 @@ namespace webSiteAndServer.Pages
                 case "query2":
                     ViewData["SelectedQuery"] = 2;
                     this.Query2();
-                      break;
+                    break;
                 case "query3":
                     ViewData["SelectedQuery"] = 3;
                     this.Query3();
@@ -49,33 +49,111 @@ namespace webSiteAndServer.Pages
                     return Page();
                 case "query5":
                     ViewData["SelectedQuery"] = 5;
-                     this.Query5(); 
-                    
+                    this.Query5();
+
                     break;
                 case "query6":
                     ViewData["SelectedQuery"] = 6;
                     this.Query6();
                     break;
                 case "query7":
-                    ViewData["SelectedQuery"] =7;
+                    ViewData["SelectedQuery"] = 7;
                     this.Query7();
                     break;
                 case "query8":
                     ViewData["SelectedQuery"] = 8;
                     this.Query8();
-                    break;  
+                    break;
 
                 // Add cases for other queries
                 default:
                     break;
             }
 
-                return Page();
+            return Page();
         }
 
-        
+
 
         private void Query7()
+        {
+            var playerGamesCount = connect4Context.users
+            .GroupJoin(connect4Context.Games,
+        user => user.PlayerId,
+        game => game.PlayerId,
+        (user, games) => new
+        {
+            PlayerId = user.PlayerId,
+            GamesPlayed = games.Count()
+        })
+            .ToList();
+
+            int maxGamesPlayed = 0;
+            var query7Tables = new List<DataTable>();
+
+            if (playerGamesCount.Any())
+            {
+                maxGamesPlayed = playerGamesCount.Max(player => player.GamesPlayed);
+
+                // Create DataTables for each group of games played
+                for (int gamesPlayed = 1; gamesPlayed <= maxGamesPlayed; gamesPlayed++)
+                {
+                    var playersWithGamesPlayed = playerGamesCount
+                        .Where(player => player.GamesPlayed == gamesPlayed)
+                        .ToList();
+
+                    var dataTable = new DataTable();
+                    dataTable.TableName = $"Players with {gamesPlayed} Game(s) Played";
+                    dataTable.Columns.Add("PlayerId", typeof(int));
+                    dataTable.Columns.Add("GamesPlayed", typeof(int));
+
+                    foreach (var player in playersWithGamesPlayed)
+                    {
+                        dataTable.Rows.Add(player.PlayerId, player.GamesPlayed);
+                    }
+
+                    ViewData[$"GamesPlayed{gamesPlayed}"] = dataTable;
+                }
+
+                for (int gamesPlayed = 1; gamesPlayed <= maxGamesPlayed; gamesPlayed++)
+                {
+                    var key = $"GamesPlayed{gamesPlayed}";
+                    if (ViewData.ContainsKey(key))
+                    {
+                        var dataTable = ViewData[key] as DataTable;
+                        if (dataTable != null)
+                        {
+                            query7Tables.Add(dataTable);
+                        }
+                    }
+                }
+
+            }
+
+            // Create DataTable for players with 0 games played
+            var playersWithNoGamesPlayed = playerGamesCount
+                    .Where(player => player.GamesPlayed == 0)
+                    .ToList();
+
+            var zeroGamesPlayedTable = new DataTable();
+            zeroGamesPlayedTable.TableName = "Players with 0 Games Played";
+            zeroGamesPlayedTable.Columns.Add("PlayerId", typeof(int));
+            zeroGamesPlayedTable.Columns.Add("GamesPlayed", typeof(int));
+
+            foreach (var player in playersWithNoGamesPlayed)
+            {
+                zeroGamesPlayedTable.Rows.Add(player.PlayerId, player.GamesPlayed);
+            }
+
+            query7Tables.Add(zeroGamesPlayedTable);
+            ViewData["Query7Tables"] = query7Tables;
+            ViewData["QueryResult"] = zeroGamesPlayedTable;
+
+        }
+
+
+
+        private void Query6()
         {
             var playerGamesCount = connect4Context.Games
                 .GroupBy(game => game.PlayerId)
@@ -86,89 +164,17 @@ namespace webSiteAndServer.Pages
                 })
                 .ToList();
 
-            var playersPlayed3OrMore = playerGamesCount
-                .Where(player => player.GamesPlayed >= 3)
-                .ToList();
+            QueryResult = new DataTable();
+            QueryResult.Columns.Add("PlayerId", typeof(int));
+            QueryResult.Columns.Add("GamesPlayed", typeof(int));
 
-            var playersPlayed2 = playerGamesCount
-                .Where(player => player.GamesPlayed == 2)
-                .ToList();
-
-            var playersPlayed1 = playerGamesCount
-                .Where(player => player.GamesPlayed == 1)
-                .ToList();
-
-            var playersDidntPlayYet = playerGamesCount
-                .Where(player => player.GamesPlayed == 0)
-                .ToList();
-
-            var queryResultTable = new DataTable();
-            queryResultTable.TableName = "Players with 3 or More Games Played";
-            queryResultTable.Columns.Add("PlayerId", typeof(int));
-            queryResultTable.Columns.Add("GamesPlayed", typeof(int));
-
-            foreach (var playerGame in playersPlayed3OrMore)
+            foreach (var playerGame in playerGamesCount)
             {
-                queryResultTable.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
+                QueryResult.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
             }
 
-            var playersPlayed2Table = new DataTable();
-            playersPlayed2Table.TableName = "Players with 2 Games Played";
-            playersPlayed2Table.Columns.Add("PlayerId", typeof(int));
-            playersPlayed2Table.Columns.Add("GamesPlayed", typeof(int));
-            foreach (var playerGame in playersPlayed2)
-            {
-                playersPlayed2Table.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
-            }
+            ViewData["QueryResult"] = QueryResult;
 
-            var playersPlayed1Table = new DataTable();
-            playersPlayed1Table.TableName = "Players with 1 Game Played";
-            playersPlayed1Table.Columns.Add("PlayerId", typeof(int));
-            playersPlayed1Table.Columns.Add("GamesPlayed", typeof(int));
-            foreach (var playerGame in playersPlayed1)
-            {
-                playersPlayed1Table.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
-            }
-
-            var playersDidntPlayYetTable = new DataTable();
-            playersDidntPlayYetTable.TableName = "Players Who Didn't Play Yet";
-            playersDidntPlayYetTable.Columns.Add("PlayerId", typeof(int));
-            playersDidntPlayYetTable.Columns.Add("GamesPlayed", typeof(int));
-            foreach (var playerGame in playersDidntPlayYet)
-            {
-                playersDidntPlayYetTable.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
-            }
-
-            ViewData["QueryResult"] = queryResultTable;
-            ViewData["PlayersPlayed2"] = playersPlayed2Table;
-            ViewData["PlayersPlayed1"] = playersPlayed1Table;
-            ViewData["PlayersDidntPlayYet"] = playersDidntPlayYetTable;
-        }
-
-
-
-        private void Query6()
-        {
-                var playerGamesCount = connect4Context.Games
-                    .GroupBy(game => game.PlayerId)
-                    .Select(group => new
-                    {
-                        PlayerId = group.Key,
-                        GamesPlayed = group.Count()
-                    })
-                    .ToList();
-
-                QueryResult = new DataTable();
-                QueryResult.Columns.Add("PlayerId", typeof(int));
-                QueryResult.Columns.Add("GamesPlayed", typeof(int));
-
-                foreach (var playerGame in playerGamesCount)
-                {
-                    QueryResult.Rows.Add(playerGame.PlayerId, playerGame.GamesPlayed);
-                }
-
-                ViewData["QueryResult"] = QueryResult;
-            
         }
 
 
@@ -231,7 +237,7 @@ namespace webSiteAndServer.Pages
             var unplayedUsers = users.Where(u => !playedUserIds.Contains(u.PlayerId));
             foreach (var unplayedUser in unplayedUsers)
             {
-                QueryResult.Rows.Add(unplayedUser.FirstName,null);
+                QueryResult.Rows.Add(unplayedUser.FirstName, null);
             }
 
             ViewData["QueryResult"] = QueryResult;
@@ -258,15 +264,15 @@ namespace webSiteAndServer.Pages
         }
         private void Query5()
         {
-    // Populate UsersCombo directly in the model
-        UsersCombo = connect4Context.users
-        .Select(user => new SelectListItem
-        {
-            Value = user.PlayerId.ToString(),
-            Text = user.FirstName
-        })
-        .Distinct()
-        .ToList();
+            // Populate UsersCombo directly in the model
+            UsersCombo = connect4Context.users
+            .Select(user => new SelectListItem
+            {
+                Value = user.PlayerId.ToString(),
+                Text = user.FirstName
+            })
+            .Distinct()
+            .ToList();
 
             ViewData["UserCombo"] = UsersCombo;
 
