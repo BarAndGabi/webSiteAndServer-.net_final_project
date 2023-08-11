@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua8m+0f/pF5fP2PxUHR4Z9J3s7p5M2Qp6hq1Umz5V7ZqD9d4PumpA4J" crossorigin="anonymous">
 </head>
 <body>
+      
+       @if (TempData.ContainsKey("ErrorMessage"))
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+  
+
     <div class="container mt-4">
         <table class="table table-striped">
             <thead>
@@ -50,10 +60,13 @@
                             </form>
                         </td>
                         <td>
-                            <form method="post">
+                           <form method="post" class="d-flex align-items-center justify-content-center">
                                 <input type="hidden" name="userId" value="@user.PlayerId" />
-                                <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+                                <button type="submit" name="action" value="delete" class="btn btn-danger rounded-circle">
+                                    Delete
+                                </button>
                             </form>
+
                         </td>
                     </tr>
                 }

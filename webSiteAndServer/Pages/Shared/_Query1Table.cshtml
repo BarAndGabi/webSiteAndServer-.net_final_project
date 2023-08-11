@@ -6,10 +6,11 @@
                 <th>
                     @if (column.ColumnName.Equals("FirstName", StringComparison.OrdinalIgnoreCase))
                     {
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>@column.ColumnName</span>
-                            <button type="button" class="btn btn-info ml-2" onclick="sortTable('firstname')">Sort</button>
-                        </div>
+                        
+                            <form method="get">
+                                <input type="hidden" name="sortBy" value="true" />
+                                <button type="submit" class="btn btn-info ml-2">Sort</button>
+                            </form>                        
                     }
                     else
                     {
@@ -17,8 +18,6 @@
                     }
                 </th>
             }
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -29,8 +28,6 @@
                 {
                     <td>@item</td>
                 }
-                <td><button type="button" class="btn btn-danger">Edit</button></td>
-                <td><button type="button" class="btn btn-danger">Delete</button></td>
             </tr>
         }
     </tbody>

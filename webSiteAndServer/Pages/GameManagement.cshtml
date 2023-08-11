@@ -1,0 +1,37 @@
+﻿@page
+@model webSiteAndServer.Pages.GameManagementModel
+
+<h2>Game Management</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Game ID</th>
+            <th>User ID</th>
+            <th>Player Won</th>
+            <th>Game Finished</th>
+            <th>Start Time</th>
+            <th>Time Played</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Games)
+        {
+            <tr>
+                <td>@game.Id</td>
+                <td>@game.PlayerId</td>
+                <td>@game.PlayerWon</td>
+                <td>@game.GameFinished</td>
+                <td>@game.StartTime</td>
+                <td>@game.TimePlayedSeconds</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="gameId" value="@game.Id" />
+                        <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
+using System.Globalization;
 using webSiteAndServer.Data;
 using webSiteAndServer.Model;
 
@@ -13,10 +14,13 @@ namespace webSiteAndServer.Pages
         public List<User>? Users { get; set; }
         public List<SelectListItem> UsersCombo { get; set; }
         public List<SelectListItem> CountryCombo { get; set; }
+        
+        
 
         public DataTable? QueryResult { get; set; }
         public int SelectedUserId { get; set; }
         public string SelectedCountry { get; set; }
+        public bool sortBy { get; set; }
 
         public QueriesPageModel(Connect4Context connect4Context)
         {
@@ -27,6 +31,12 @@ namespace webSiteAndServer.Pages
 
         public void OnGet()
         {
+            sortBy = Request.Query.ContainsKey("sortBy") && Request.Query["sortBy"] == "true";
+            if (sortBy)
+            {
+                ViewData["SelectedQuery"] = 1;
+                this.Query1(sortBy);
+            }
         }
 
         public IActionResult OnPost(string queryName)
@@ -35,7 +45,7 @@ namespace webSiteAndServer.Pages
             {
                 case "query1":
                     ViewData["SelectedQuery"] = 1;
-                    this.Query1();
+                    this.Query1(false);
                     break;
                 case "query2":
                     ViewData["SelectedQuery"] = 2;
@@ -183,9 +193,14 @@ namespace webSiteAndServer.Pages
             throw new NotImplementedException();
         }
 
-        private void Query1()
+        private void Query1(bool sort)
         {
             Users = this.connect4Context.users.ToList();
+
+            if (sort)
+            {
+                Users = Users.OrderBy(u => u.FirstName, StringComparer.OrdinalIgnoreCase).ToList();
+            }
 
             QueryResult = new DataTable();
             QueryResult.Columns.Add("PlayerId", typeof(int));
@@ -197,6 +212,7 @@ namespace webSiteAndServer.Pages
             {
                 QueryResult.Rows.Add(user.PlayerId, user.FirstName, user.PhoneNumber, user.Country);
             }
+
             ViewData["QueryResult"] = QueryResult;
         }
 

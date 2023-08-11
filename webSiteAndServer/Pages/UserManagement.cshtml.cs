@@ -20,6 +20,7 @@ public class UserManagementModel : PageModel
     public int UserIdBeingEdited { get; set; }
 
     public List<User> Users { get; set; }
+    public string ErrorMessage { get; set; }
 
     public void OnGet()
     {
@@ -32,7 +33,7 @@ public class UserManagementModel : PageModel
         string action = Request.Form["action"];
 
         var user = this.connect4Context.users.FirstOrDefault(u => u.PlayerId == userId);
-
+        string newValue = Request.Form["newValue"];
         if (user != null)
         {
             if (action == "edit")
@@ -42,52 +43,79 @@ public class UserManagementModel : PageModel
 
                 if (ColumnBeingEdited == "Country")
                 {
-                    // Handle editing country
-                    // No need to perform any action here
-                }
-                else if (ColumnBeingEdited == "OtherColumn")
-                {
-                    // Handle editing other column
-                    string newValue = Request.Form["newValue"];
 
-                    if (ColumnBeingEdited == "PlayerId")
+
+                    if (!string.IsNullOrEmpty(newValue) && !int.TryParse(newValue, out _))
                     {
-                        // Validate if the new ID is available
-                        int newId = int.Parse(newValue);
-                        var existingUser = this.connect4Context.users.FirstOrDefault(u => u.PlayerId == newId);
-                        if (existingUser != null)
-                        {
-                            // ID already taken, handle the error
-                            // You might want to show an error message or redirect back to the page
-                            return Page();
-                        }
-                        user.PlayerId = newId;
+                        // Capitalize the first letter of the country name
+                        newValue = char.ToUpper(newValue[0]) + newValue.Substring(1);
+                        user.Country = newValue;
+                        this.connect4Context.SaveChanges();
+
                     }
-                    else if (ColumnBeingEdited == "FirstName")
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Cant Enter a number";
+                        
+                    }
+
+                }
+
+                // Handle editing other column
+                if (ColumnBeingEdited == "Id")
+                {
+                    // Validate if the new ID is available
+                    int newId = int.Parse(newValue);
+                    var existingUser = connect4Context.users.FirstOrDefault(u => u.PlayerId == newId);
+                    if (existingUser != null)
+                    {
+                        TempData["ErrorMessage"] = "Player ID already taken.";
+
+                    }
+                    else
+                    {
+                        user.PlayerId = newId;
+                        this.connect4Context.SaveChanges();
+                    }
+                    
+                    
+                }
+                if (ColumnBeingEdited == "FirstName")
+                {
+                    if (!string.IsNullOrEmpty(newValue) && !int.TryParse(newValue, out _))
                     {
                         user.FirstName = newValue;
+                        this.connect4Context.SaveChanges();
                     }
-                    else if (ColumnBeingEdited == "PhoneNumber")
+                    
+                }
+                if (ColumnBeingEdited == "PhoneNumber")
+                {
+                    // Remove any non-numeric characters from the input
+                    newValue = new string(newValue.Where(char.IsDigit).ToArray());
+
+                    if (newValue.Length == 10)
                     {
                         user.PhoneNumber = newValue;
+                        this.connect4Context.SaveChanges();
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Phone number must be exactly 10 digits.";
+
                     }
                 }
 
-                this.connect4Context.SaveChanges();
-            }
-            else if (action == "editCountry")
-            {
-                string newCountryValue = Request.Form["newCountryValue"];
-                user.Country = newCountryValue;
-                this.connect4Context.SaveChanges();
-            }
-            else if (action == "delete")
-            {
-                this.connect4Context.users.Remove(user);
-                this.connect4Context.SaveChanges();
-            }
+               
+                return RedirectToPage("UserManagement");
+        }
+        else if (action == "delete")
+        {
+            this.connect4Context.users.Remove(user);
+            this.connect4Context.SaveChanges();
+        }
         }
 
-        return RedirectToPage();
+        return RedirectToPage("UserManagement");
     }
 }
