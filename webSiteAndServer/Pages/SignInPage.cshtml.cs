@@ -37,7 +37,7 @@ namespace webSiteAndServer.Pages
             this.Country = "";
             this.Phone="";
             this.AddHardcodedUsersToDB();
-            this.AddHardcodedGamesToDB();
+          //  this.AddHardcodedGamesToDB();
 
 
         }
@@ -83,12 +83,12 @@ namespace webSiteAndServer.Pages
         public void AddHardcodedGamesToDB()
         {
             //check if there is less then 30 games in the db
-            if (connect4Context.Games.Count() < 30)
+            if (connect4Context.Games.Count() < 2*3)
             {
                 //create 30 games
                 for (int i = 1; i <= 3; i++)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < 2; j++)
                     {
                         Random random = new Random();
                         //random game 

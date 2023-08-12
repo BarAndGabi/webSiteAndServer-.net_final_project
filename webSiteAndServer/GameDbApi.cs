@@ -9,7 +9,11 @@ namespace webSiteAndServer
     [ApiController]
     public class GameDbApi : ControllerBase
     {
-        private readonly Data.Connect4Context db;
+        private  Data.Connect4Context db;
+        public GameDbApi(Data.Connect4Context db)
+        {
+            this.db = db;
+        }
     
 
         // POST: api/GameDbApi/writeStartGame
@@ -36,6 +40,30 @@ namespace webSiteAndServer
 
             return Ok(true);
         }
+      
+        // POST: api/GameDbApi/checkValidGame
+        [HttpPost("checkValidGame")]
+        public IActionResult CheckValidGame([FromBody] CheckValidGameRequestModel request)
+        {
+            try
+            {
+                // Check if a game with the provided gameId exists in the database
+                bool isValidGame = db.Games.Any(game => game.Id == request.GameId);
+
+                return Ok(isValidGame);
+            }
+            catch (Exception)
+            {
+                return BadRequest(false);
+            }
+        }
+
+        // Create a model class to represent the check valid game request data.
+        public class CheckValidGameRequestModel
+        {
+            public string GameId { get; set; } = "";
+        }
+
 
         // POST: api/GameDbApi/writeEndGame
         [HttpPost("writeEndGame")]
@@ -65,6 +93,7 @@ namespace webSiteAndServer
 
             return Ok(true);
         }
+
     }
 
   

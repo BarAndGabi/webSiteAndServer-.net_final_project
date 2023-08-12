@@ -364,7 +364,7 @@ namespace webSiteAndServer.Controllers
         {
             
                 // Deserialize the JSON string to a jagged array
-                int[][] boardArray = JsonSerializer.Deserialize<int[][]>(json);
+                int[][]? boardArray = JsonSerializer.Deserialize<int[][]>(json);
 
                 // Get the dimensions of the board
                 int numRows = boardArray.Length;
