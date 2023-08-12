@@ -8,17 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua8m+0f/pF5fP2PxUHR4Z9J3s7p5M2Qp6hq1Umz5V7ZqD9d4PumpA4J" crossorigin="anonymous">
 </head>
 <body>
-      
-       @if (TempData.ContainsKey("ErrorMessage"))
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
-  
-
     <div class="container mt-4">
+        @if (TempData.ContainsKey("ErrorMessage"))
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -51,28 +47,27 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" name="newValue" class="form-control" />
+                                        <input type="text" name="newValue" class="form-control" placeholder="New Value" />
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="submit" name="action" value="edit" class="btn btn-danger">Edit</button>
+                                        <button type="submit" name="action" value="edit" class="btn btn-danger btn-sm">Edit</button>
                                     </div>
                                 </div>
                             </form>
                         </td>
                         <td>
-                           <form method="post" class="d-flex align-items-center justify-content-center">
+                            <form method="post" class="d-flex align-items-center justify-content-center">
                                 <input type="hidden" name="userId" value="@user.PlayerId" />
-                                <button type="submit" name="action" value="delete" class="btn btn-danger rounded-circle">
-                                    Delete
+                                <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm rounded-circle">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
